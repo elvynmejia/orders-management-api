@@ -8,7 +8,8 @@ import morgan from 'morgan';
 import cors from 'cors';
 
 import db from './db';
-import getProductsControler from './api/v1/getProducts';
+import getProductsControler from './api/v1/products/getProducts';
+import createProductControler from './api/v1/products/createProduct';
 
 const app: Express = express();
 
@@ -25,6 +26,7 @@ db.initialize().then(() => {
 });
 
 app.get('/api/v1/products', getProductsControler);
+app.post('/api/v1/products', createProductControler);
 
 app.get('/health', (req: Request, res: Response) => {
   res.send('Ok!!');

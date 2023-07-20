@@ -11,4 +11,5 @@ chai.use(chaiAsPromised);
 chai.use(chaiHttp);
 
 const client = chai.request(server).keepOpen();
+
 export default client;

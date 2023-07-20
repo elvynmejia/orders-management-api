@@ -1,23 +1,13 @@
 import { expect } from 'chai';
-import { createProduct } from '../../../../app/models/product';
-import client from '../../..';
-
-import db from '../../../../app/db';
+import { createProduct } from '../../../../../app/models/product';
+import client from '../../../..';
 
 describe('GET /api/v1/products', () => {
-  before(async () => {
-    await db.initialize();
-  });
-
-  after(async () => {
-    await db.synchronize(true);
-  });
-
   it('get all products', async () => {
     await createProduct({
       price: 10.49,
       quantity: 5,
-      description: 'cat litter box'
+      description: 'cat litter'
     });
 
     const response = await client.get('/api/v1/products');
@@ -34,7 +24,7 @@ describe('GET /api/v1/products', () => {
     ).to.have.members(['id', 'price', 'description', 'quantity']);
 
     expect(firstProduct.quantity).to.eq(5);
-    expect(firstProduct.description).to.eq('cat litter box');
+    expect(firstProduct.description).to.eq('cat litter');
     expect(firstProduct.price).to.eq(10.49);
   });
 });

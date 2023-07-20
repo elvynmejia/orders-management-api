@@ -8,8 +8,8 @@
   "scripts": {
     "build": "tsc",
     "start": "tsc && node compiled/server.js",
-    "test": "mocha -r ts-node/register spec/**/*.spec.ts --reporter spec --require spec/index.ts --exit",
-    "noto": "mocha -r ts-node/register spec/**/*.spec.ts --reporter spec --require spec/index.ts --no-timeout --exit",
+    "test": "mocha -r ts-node/register spec/**/*.spec.ts --reporter spec --require spec/index.ts --file spec/mochaHooks.ts --exit",
+    "noto": "mocha -r ts-node/register spec/**/*.spec.ts --reporter spec --require spec/index.ts --file spec/mochaHooks.ts --no-timeout --exit",
     "lint": "eslint app/**/*.ts spec/**/*.spec.ts",
     "lint-fix": "eslint app/**/*.ts spec/**/*.spec.ts --fix",
     "migrate:up": "tsc && npx typeorm migration:run -d compiled/app/db.js",
