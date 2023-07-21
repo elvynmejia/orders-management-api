@@ -45,7 +45,17 @@ const createProduct = async (product: Product): Promise<Product> => {
   return await db.getRepository(Products).save(product);
 };
 
+const updateProduct = async (product: Product, fieldsToUpdate: Product): Promise<Product> => {
+  return await db.getRepository(Products).save(fieldsToUpdate);
+};
+
+const findProductById = async (id: number): Promise<Product | null> => {
+  return await db.getRepository(Products).findOneBy({ id: id });
+};
+
 export {
   getProducts,
-  createProduct
+  createProduct,
+  updateProduct,
+  findProductById
 };
