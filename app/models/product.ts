@@ -1,11 +1,6 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn, 
-  Column, 
-  BaseEntity
-} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
 
-import db from './../db';
+import db from "./../db";
 
 interface Product {
   id: number;
@@ -14,7 +9,7 @@ interface Product {
   quantity: number;
 }
 
-type ProductWithoutId = Omit<Product, 'id'>;
+type ProductWithoutId = Omit<Product, "id">;
 
 @Entity()
 export class Products extends BaseEntity {
@@ -22,21 +17,18 @@ export class Products extends BaseEntity {
     super();
     Object.assign(this, product);
   }
-  
+
   @PrimaryGeneratedColumn()
-    id: number;
+  id: number;
 
   @Column()
-    description: string;
+  description: string;
 
-  @Column(
-    'decimal', 
-    { precision: 15, scale: 2 }
-  )
-    price: number;
+  @Column("decimal", { precision: 15, scale: 2 })
+  price: number;
 
   @Column()
-    quantity: number;
+  quantity: number;
 }
 
 const getProducts = async (): Promise<Product[]> => {
@@ -47,7 +39,10 @@ const createProduct = async (product: ProductWithoutId): Promise<Product> => {
   return await db.getRepository(Products).save(product);
 };
 
-const updateProduct = async (product: Product, fieldsToUpdate: Product): Promise<Product> => {
+const updateProduct = async (
+  product: Product,
+  fieldsToUpdate: Product,
+): Promise<Product> => {
   return await db.getRepository(Products).save(fieldsToUpdate);
 };
 
@@ -55,9 +50,4 @@ const findProductById = async (id: number): Promise<Product | null> => {
   return await db.getRepository(Products).findOneBy({ id: id });
 };
 
-export {
-  getProducts,
-  createProduct,
-  updateProduct,
-  findProductById
-};
+export { getProducts, createProduct, updateProduct, findProductById };

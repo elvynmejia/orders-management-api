@@ -1,13 +1,13 @@
-import { expect } from 'chai';
-import { createProduct } from '../../../../../app/models/product';
-import client from '../../../..';
+import { expect } from "chai";
+import { createProduct } from "../../../../../app/models/product";
+import client from "../../../..";
 
-describe('POST /api/v1/products/:id/order', () => {
-  it('create an order given a product', async () => {
+describe("POST /api/v1/products/:id/order", () => {
+  it("create an order given a product", async () => {
     const product = await createProduct({
       price: 10.49,
       quantity: 100,
-      description: 'cat litter'
+      description: "cat litter",
     });
 
     const response = await client
@@ -20,46 +20,66 @@ describe('POST /api/v1/products/:id/order', () => {
 
     expect(order.product_id).to.eq(product.id);
     expect(order.quantity).to.eq(10);
-    expect(
-      Object.keys(order)
-    ).to.have.members(['id', 'product_id', 'quantity']);
+    expect(Object.keys(order)).to.have.members([
+      "id",
+      "product_id",
+      "quantity",
+    ]);
   });
 
-  it('when missing required data', async () => {
+  it("when missing required data", async () => {
     const product = await createProduct({
       price: 10.49,
       quantity: 100,
-      description: 'cat litter'
+      description: "cat litter",
     });
 
     const response = await client
       .post(`/api/v1/products/${product.id}/order`)
-      .send({ });
-    
+      .send({});
+
     expect(response.status).to.eq(422);
     expect(response.body).to.deep.eq({
-      errors: [ { message: '"quantity" is required' } ],
-      message: 'Unprocessable Entity',
-      code: 'UNPROCESSABLE_ENTITY'
+      errors: [{ message: '"quantity" is required' }],
+      message: "Unprocessable Entity",
+      code: "UNPROCESSABLE_ENTITY",
     });
   });
 
-  it('product is out of stock', async () => {
+  it("product is out of stock", async () => {
     const product = await createProduct({
       price: 10.49,
       quantity: 1,
-      description: 'cat litter'
+      description: "cat litter",
     });
 
     const response = await client
       .post(`/api/v1/products/${product.id}/order`)
-      .send({ quantity: 5 });
-    
+      .send({
+        quantity: 5,
+        destination_address: {
+          address1: "2 Townsend Street",
+          address2: "Apt 4420",
+          city: "San Francisco",
+          state: "California",
+          zip: "94107",
+          country: "United States",
+        },
+        origin_address: {
+          address1: "2 Townsend Street",
+          address2: "Apt 4420",
+          city: "San Francisco",
+          state: "California",
+          zip: "94107",
+          country: "United States",
+        },
+      });
+
     expect(response.status).to.eq(422);
     expect(response.body).to.deep.eq({
-      errors: [ ],
+      errors: [],
       message: `Product ${product.id} is out of stock`,
-      code: 'UNPROCESSABLE_ENTITY'
+      code: "UNPROCESSABLE_ENTITY",
     });
   });
 });

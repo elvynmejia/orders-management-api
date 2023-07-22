@@ -1,9 +1,9 @@
-import app from '.';
-import http from 'http';
-import dataSource from './db';
+import app from ".";
+import http from "http";
+import dataSource from "./db";
 
 const port = 3001;
-app.set('port', port);
+app.set("port", port);
 
 const server = http.createServer(app);
 

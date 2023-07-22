@@ -1,9 +1,9 @@
-import db from '../app/db';
+import db from "../app/db";
 
 before(async () => {
-    await db.initialize();
+  await db.initialize();
 });
-  
+
 afterEach(async () => {
-    await db.synchronize(true);
+  await db.synchronize(true);
 });

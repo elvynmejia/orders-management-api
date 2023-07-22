@@ -1,11 +1,11 @@
-import dotenv from 'dotenv';
-import chai from 'chai';
+import dotenv from "dotenv";
+import chai from "chai";
 
-dotenv.config({ path: './../.env' });
+dotenv.config({ path: "./../.env" });
 
-import chaiHttp from 'chai-http';
-import server from '../app/server';
-import chaiAsPromised from 'chai-as-promised';
+import chaiHttp from "chai-http";
+import server from "../app/server";
+import chaiAsPromised from "chai-as-promised";
 
 chai.use(chaiAsPromised);
 chai.use(chaiHttp);

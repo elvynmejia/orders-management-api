@@ -1,10 +1,11 @@
-import { MigrationInterface, QueryRunner } from 'typeorm';
+import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class CreateShipmentsAndAddressesTables1690045692540 implements MigrationInterface {
-
+export class CreateShipmentsAndAddressesTables1690045692540
+  implements MigrationInterface
+{
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
-        `CREATE TABLE IF NOT EXISTS addresses(
+      `CREATE TABLE IF NOT EXISTS addresses(
                     id INT PRIMARY KEY AUTO_INCREMENT,
                     address1 VARCHAR(255) NOT NULL,
                     address2 VARCHAR(255),
@@ -12,8 +13,8 @@ export class CreateShipmentsAndAddressesTables1690045692540 implements Migration
                     zip VARCHAR(255) NOT NULL,
                     state VARCHAR(255) NOT NULL,
                     country VARCHAR(255) NOT NULL
-                )`
-      );
+                )`,
+    );
 
     await queryRunner.query(
       `CREATE TABLE IF NOT EXISTS shipments(
@@ -27,17 +28,13 @@ export class CreateShipmentsAndAddressesTables1690045692540 implements Migration
                   origin_address_id INT NOT NULL,
                   CONSTRAINT fk_destination_address_id FOREIGN KEY (destination_address_id) REFERENCES addresses(id),
                   CONSTRAINT fk_origin_address_id FOREIGN KEY (origin_address_id) REFERENCES addresses(id)
-              )`
+              )`,
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(
-      'DROP TABLE shipments'
-    );
+    await queryRunner.query("DROP TABLE shipments");
 
-    await queryRunner.query(
-      'DROP TABLE addresses'
-    );
+    await queryRunner.query("DROP TABLE addresses");
   }
 }
