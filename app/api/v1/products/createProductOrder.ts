@@ -33,6 +33,15 @@ const createProducOrderController = async (req: Request, res: Response, next: Ne
         });
     }
 
+    // check for product quantity
+    if (!(quantity <= product.quantity)) {
+        return res.status(422).json({
+            errors: [],
+            message: `Product ${product.id} is out of stock`,
+            code: 'UNPROCESSABLE_ENTITY'
+        });
+    }
+
     const order: Required<OrderWithoutId> = { quantity, product_id: product.id };
 
     try {

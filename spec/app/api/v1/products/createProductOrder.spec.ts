@@ -43,4 +43,23 @@ describe('POST /api/v1/products/:id/order', () => {
       code: 'UNPROCESSABLE_ENTITY'
     });
   });
+
+  it('product is out of stock', async () => {
+    const product = await createProduct({
+      price: 10.49,
+      quantity: 1,
+      description: 'cat litter'
+    });
+
+    const response = await client
+      .post(`/api/v1/products/${product.id}/order`)
+      .send({ quantity: 5 });
+    
+    expect(response.status).to.eq(422);
+    expect(response.body).to.deep.eq({
+      errors: [ ],
+      message: `Product ${product.id} is out of stock`,
+      code: 'UNPROCESSABLE_ENTITY'
+    });
+  });
 });
