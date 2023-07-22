@@ -8,15 +8,17 @@ import {
 import db from './../db';
 
 interface Product {
-  id?: number;
+  id: number;
   description: string;
   price: number;
   quantity: number;
 }
 
+type ProductWithoutId = Omit<Product, 'id'>;
+
 @Entity()
 export class Products extends BaseEntity {
-  constructor(product: Product) {
+  constructor(product: ProductWithoutId) {
     super();
     Object.assign(this, product);
   }
@@ -41,7 +43,7 @@ const getProducts = async (): Promise<Product[]> => {
   return await db.getRepository(Products).find();
 };
 
-const createProduct = async (product: Product): Promise<Product> => {
+const createProduct = async (product: ProductWithoutId): Promise<Product> => {
   return await db.getRepository(Products).save(product);
 };
 

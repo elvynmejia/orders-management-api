@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { createProduct } from '../../../../../app/models/product';
 import client from '../../../..';
 
-describe.only('PATCH /api/v1/products/:id', () => {
+describe('PATCH /api/v1/products/:id', () => {
   it('update product price and quantity', async () => {
     
     const product = await createProduct({
@@ -32,13 +32,13 @@ describe.only('PATCH /api/v1/products/:id', () => {
   });
 
   it('product to update not found', async () => {
-    
     const response = await client
       .patch('/api/v1/products/100')
       .send({
         price: 10.45,
         quantity: 100
       });
+      
     expect(response.status).to.eq(404);
     expect(response.body).to.deep.eq({
       code: 'NOT_FOUND',

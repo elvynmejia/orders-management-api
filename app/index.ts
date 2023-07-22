@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+
 dotenv.config({ path: './../.env' });
 
 import 'reflect-metadata';
@@ -8,9 +9,11 @@ import morgan from 'morgan';
 import cors from 'cors';
 
 import db from './db';
+import errorHandler from './errorHandler';
 import getProductsControler from './api/v1/products/getProducts';
 import createProductControler from './api/v1/products/createProduct';
 import updateProductControler from './api/v1/products/updateProduct';
+import createProducOrderController from './api/v1/products/createProductOrder';
 
 const app: Express = express();
 
@@ -29,9 +32,12 @@ db.initialize().then(() => {
 app.get('/api/v1/products', getProductsControler);
 app.post('/api/v1/products', createProductControler);
 app.patch('/api/v1/products/:id', updateProductControler);
+app.post('/api/v1/products/:id/order', createProducOrderController);
 
 app.get('/health', (req: Request, res: Response) => {
   res.send('Ok!!');
 });
+
+app.use(errorHandler);
 
 export default app;

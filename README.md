@@ -7,4 +7,7 @@ npx typeorm migration:run -d compiled/app/db.js
 
 # revert last migration from compiled code
 npx typeorm migration:revert -d compiled/app/db.js
+
+# create migration
+npx typeorm migration:create app/migrations/CreateOrders
 ```

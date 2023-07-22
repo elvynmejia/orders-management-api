@@ -1,5 +1,6 @@
 import { DataSource } from 'typeorm';
 import { Products } from './models/product';
+import { Orders } from './models/order';
 
 export default new DataSource({
     type: "mysql",
@@ -12,9 +13,9 @@ export default new DataSource({
     password: "password",
     database: "test",
     // entities: ["compiled/app/models/*.js"],
-    entities: [Products],
+    entities: [Products, Orders],
     // entities: ['./models/*.ts'],
     migrations: ["compiled/app/migrations/*.js"],
-    logging: true,
+    logging: false,
     synchronize: false, 
 });
