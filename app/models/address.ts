@@ -25,6 +25,8 @@ export interface Address {
   country: string;
 }
 
+export type addressWithoutId = Omit<Address, "id">;
+
 @Entity()
 export class Addresses extends BaseEntity {
   constructor(address: Address) {
@@ -58,7 +60,7 @@ const getAddresses = async (): Promise<Address[]> => {
   return await db.getRepository(Addresses).find();
 };
 
-const createAddress = async (address: Address): Promise<Address> => {
+const createAddress = async (address: addressWithoutId): Promise<Address> => {
   return await db.getRepository(Addresses).save(address);
 };
 

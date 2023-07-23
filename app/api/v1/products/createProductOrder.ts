@@ -4,16 +4,41 @@ import { Request, Response, NextFunction } from "express";
 import { findProductById } from "../../../models/product";
 import { createOrder, OrderWithoutId } from "../../../models/order";
 
+/*
+validate the lenght of zip
+how about parcel information?
+how about return address?
+*/
+const shipmentValidatorSchema = Joi.object({
+  quantity: Joi.number().required(),
+  destination_address: Joi.object({
+    address1: Joi.string().required(),
+    address2: Joi.string().required(),
+    city: Joi.string().required(),
+    state: Joi.string().required(),
+    zip: Joi.string().required(),
+    country: Joi.string().required(),
+  }).required(),
+  origin_address: Joi.object({
+    address1: Joi.string().required(),
+    address2: Joi.string().required(),
+    city: Joi.string().required(),
+    state: Joi.string().required(),
+    zip: Joi.string().required(),
+    country: Joi.string().required(),
+  }).required(),
+});
+
 const validatorMiddleware = async (
   req: Request,
   res: Response,
   next: NextFunction,
 ) => {
-  const schema = Joi.object({
-    quantity: Joi.number().required(),
+  const { error, ...rest } = shipmentValidatorSchema.validate({
+    quantity: req.body.quantity,
+    destination_address: req.body.destination_address,
+    origin_address: req.body.origin_address,
   });
-
-  const { error } = schema.validate({ quantity: req.body.quantity });
 
   if (error) {
     return next(error);
@@ -28,7 +53,7 @@ const createProducOrderController = async (
   next: NextFunction,
 ) => {
   const { id } = req.params;
-  const { quantity } = req.body;
+  const { quantity, origin_address, destination_address } = req.body;
 
   const product = await findProductById(parseInt(id));
 
@@ -49,14 +74,19 @@ const createProducOrderController = async (
     });
   }
 
-  const order: Required<OrderWithoutId> = { quantity, product_id: product.id };
-
   try {
-    const newOrder = await createOrder(order);
+    const newOrder = await createOrder({
+      quantity,
+      product_id: product.id,
+      destination_address,
+      origin_address,
+      tracking_company: "USPS",
+      tracking_number: "iuuid3hihd378338",
+      status: "processing",
+    });
 
     return res.status(201).json({ order: newOrder });
   } catch (error) {
-    console.log(error);
     return next(error);
   }
 };

@@ -25,6 +25,8 @@ export interface Shipment {
   origin_address_id: number;
 }
 
+export type ShipmentWithoutId = Omit<Shipment, "id">;
+
 @Entity()
 export class Shipments extends BaseEntity {
   constructor(shipment: Shipment) {
@@ -58,7 +60,9 @@ const getShipments = async (): Promise<Shipment[]> => {
   return await db.getRepository(Shipments).find();
 };
 
-const createShipment = async (shipment: Shipment): Promise<Shipment> => {
+const createShipment = async (
+  shipment: ShipmentWithoutId,
+): Promise<Shipment> => {
   return await db.getRepository(Shipments).save(shipment);
 };
 
