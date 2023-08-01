@@ -1,4 +1,5 @@
 export const orderParams = {
+  status: "processing",
   quantity: 5,
   destination_address: {
     address1: "2 Townsend Street",

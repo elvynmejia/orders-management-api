@@ -5,8 +5,8 @@ import { createOrder } from "../../../../../app/models/order";
 
 import { orderParams } from "../../../../utils";
 
-describe("PATCH /api/v1/orders/:id/shipments", () => {
-  it("updates shipment information", async () => {
+describe("PATCH /api/v1/orders/:id/update_status", () => {
+  it("updates order status", async () => {
     const product = await createProduct({
       price: 10.49,
       quantity: 100,
@@ -22,22 +22,17 @@ describe("PATCH /api/v1/orders/:id/shipments", () => {
     });
 
     const response = await client
-      .patch(`/api/v1/orders/${order.id}/shipments`)
+      .patch(`/api/v1/orders/${order.id}/update_status`)
       .send({
-        tracking_company: "trk_updated",
-        tracking_number: "USPS",
-        status: "fulfilled",
+        status: "cancelled",
       });
 
     expect(response.status).to.eq(200);
-    expect(response.body.shipment).to.deep.eq({
-      order_id: order.id,
-      tracking_company: "trk_updated",
-      tracking_number: "USPS",
-      status: "fulfilled",
-      destination_address_id: response.body.shipment.destination_address_id,
-      origin_address_id: response.body.shipment.origin_address_id,
-      id: response.body.shipment.id,
+    expect(response.body.order).to.deep.eq({
+      id: order.id,
+      product_id: order.product_id,
+      quantity: order.quantity,
+      status: "cancelled",
     });
   });
 
@@ -53,31 +48,62 @@ describe("PATCH /api/v1/orders/:id/shipments", () => {
       product_id: product.id,
       tracking_number: "trk",
       tracking_company: "trk company",
-      status: "pending",
+      status: "processing",
     });
 
     const response = await client
-      .patch(`/api/v1/orders/${order.id}/shipments`)
+      .patch(`/api/v1/orders/${order.id}/update_status`)
       .send({
-        // tracking_company: 'trk_updated',
-        tracking_number: "USPS",
+        // status: "fulfilled",
+      });
+
+    expect(response.status).to.eq(422);
+    expect(response.body).to.deep.eq({
+      errors: [{ message: '"status" is required' }],
+      message: "Unprocessable Entity",
+      code: "UNPROCESSABLE_ENTITY",
+    });
+  });
+
+  it("invalid status", async () => {
+    const product = await createProduct({
+      price: 10.49,
+      quantity: 100,
+      description: "cat litter",
+    });
+
+    const { order } = await createOrder({
+      ...orderParams,
+      product_id: product.id,
+      tracking_number: "trk",
+      tracking_company: "trk company",
+      status: "processing",
+    });
+
+    const response = await client
+      .patch(`/api/v1/orders/${order.id}/update_status`)
+      .send({
         status: "fulfilled",
       });
 
     expect(response.status).to.eq(422);
     expect(response.body).to.deep.eq({
-      errors: [{ message: '"tracking_company" is required' }],
+      errors: [
+        {
+          message: '"status" must be one of [processing, cancelled, delivered]',
+        },
+      ],
       message: "Unprocessable Entity",
       code: "UNPROCESSABLE_ENTITY",
     });
   });
 
   it("order does not exists", async () => {
-    const response = await client.patch("/api/v1/orders/100/shipments").send({
-      tracking_company: "trk_updated",
-      tracking_number: "USPS",
-      status: "fulfilled",
-    });
+    const response = await client
+      .patch("/api/v1/orders/100/update_status")
+      .send({
+        status: "delivered",
+      });
 
     expect(response.status).to.eq(404);
     expect(response.body).to.deep.eq({

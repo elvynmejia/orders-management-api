@@ -1,23 +1,15 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  BaseEntity,
-  ManyToOne,
-  JoinColumn,
-} from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
 
 import db from "./../db";
 
 import { Address, createAddress, addressWithoutId } from "./../models/address";
 import { createShipment, Shipment } from "./../models/shipment";
 
-import { Products } from "./product";
-
 export interface Order {
   id: number;
   product_id: number;
   quantity: number;
+  status: string;
 }
 
 export type OrderWithoutId = Omit<Order, "id">;
@@ -47,6 +39,9 @@ export class Orders extends BaseEntity {
 
   @Column()
   quantity: number;
+
+  @Column()
+  status: string;
 }
 
 const getOrders = async (): Promise<Order[]> => {
@@ -66,11 +61,11 @@ const createOrder = async (
   );
   const originAddress = await createAddress(orderParams.origin_address);
 
-  // support order.status too
   // support shipment.parcel
   const order = await db.getRepository(Orders).save({
     product_id: orderParams.product_id,
     quantity: orderParams.quantity,
+    status: orderParams.status,
   });
 
   const shipment = await createShipment({

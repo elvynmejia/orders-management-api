@@ -3,13 +3,10 @@ import Joi from "joi";
 import { Request, Response, NextFunction } from "express";
 
 import { findOrderById, updateOrder } from "../../../models/order";
-import {
-  findShipmentByIdOrderId,
-  updateShipment,
-} from "../../../models/shipment";
 
+// add confirmed status to order
 const shipmentValidatorSchema = Joi.object({
-  status: Joi.string().valid('processing', 'cancelled', 'delivered').required(),
+  status: Joi.string().valid("processing", "cancelled", "delivered").required(),
 });
 
 const validatorMiddleware = async (
@@ -45,13 +42,13 @@ const updateOrderStatusController = async (
     });
   }
 
-//   if (order.status === '') {
-//     return res.status(404).json({
-//       errors: [],
-//       message: "Order Not found",
-//       code: "NOT_FOUND",
-//     });
-//   }
+  if (order.status === "delivered") {
+    return res.status(422).json({
+      errors: [],
+      message: `Order ${order.id} status cannot be updated. status delivered`,
+      code: "UNPROCESSABLE_ENTITY",
+    });
+  }
 
   try {
     const fieldsToUpdate = {
