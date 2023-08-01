@@ -77,4 +77,16 @@ const findShipmentById = async (id: number): Promise<Shipment | null> => {
   return await db.getRepository(Shipments).findOneBy({ id: id });
 };
 
-export { getShipments, createShipment, updateShipment, findShipmentById };
+const findShipmentByIdOrderId = async (
+  order_id: number,
+): Promise<Shipment | null> => {
+  return await db.getRepository(Shipments).findOneBy({ order_id: order_id });
+};
+
+export {
+  getShipments,
+  createShipment,
+  updateShipment,
+  findShipmentById,
+  findShipmentByIdOrderId,
+};

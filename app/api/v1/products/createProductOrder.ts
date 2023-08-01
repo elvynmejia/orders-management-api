@@ -2,10 +2,10 @@ import Joi from "joi";
 
 import { Request, Response, NextFunction } from "express";
 import { findProductById } from "../../../models/product";
-import { createOrder, OrderWithoutId } from "../../../models/order";
+import { createOrder } from "../../../models/order";
 
 /*
-validate the lenght of zip
+validate the length of zip
 how about parcel information?
 how about return address?
 */

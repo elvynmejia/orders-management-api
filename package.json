@@ -14,6 +14,7 @@
     "lint-fix": "eslint app/**/*.ts spec/**/*.spec.ts --fix",
     "migrate:up": "tsc && npx typeorm migration:run -d compiled/app/db.js",
     "migrate:down": "tsc && npx typeorm migration:revert -d compiled/app/db.js",
+    "schema:drop": "tsc && npx typeorm schema:drop -d compiled/app/db.js",
     "format": "prettier .  --write"
   },
   "dependencies": {
@@ -40,6 +41,7 @@
     "chai": "^4.3.7",
     "chai-as-promised": "^7.1.1",
     "chai-http": "^4.3.0",
+    "chai-factories": "^0.1.0",
     "eslint": "^8.45.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.8.0",

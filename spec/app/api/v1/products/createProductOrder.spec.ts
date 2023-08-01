@@ -1,4 +1,5 @@
 import { expect } from "chai";
+
 import { createProduct } from "../../../../../app/models/product";
 
 import { getOrders } from "../../../../../app/models/order";
@@ -7,28 +8,10 @@ import { getShipments } from "../../../../../app/models/shipment";
 
 import client from "../../../..";
 
-const orderParams = {
-  quantity: 5,
-  destination_address: {
-    address1: "2 Townsend Street",
-    address2: "Apt 4420",
-    city: "San Francisco",
-    state: "California",
-    zip: "94107",
-    country: "United States",
-  },
-  origin_address: {
-    address1: "2 Townsend Street",
-    address2: "Apt 4420",
-    city: "San Francisco",
-    state: "California",
-    zip: "94107",
-    country: "United States",
-  },
-};
+import { orderParams } from "../../../../utils";
 
-describe.only("POST /api/v1/products/:id/order", () => {
-  it.only("create an order given a product", async () => {
+describe("POST /api/v1/products/:id/orders", () => {
+  it("create an order given a product", async () => {
     const product = await createProduct({
       price: 10.49,
       quantity: 100,
@@ -36,14 +19,14 @@ describe.only("POST /api/v1/products/:id/order", () => {
     });
 
     const response = await client
-      .post(`/api/v1/products/${product.id}/order`)
+      .post(`/api/v1/products/${product.id}/orders`)
       .send({
         ...orderParams,
         quantity: 10,
       });
 
     const { order: createdOrder } = response.body;
-
+    console.log(response.body);
     expect(response.status).to.eq(201);
     expect(Object.keys(createdOrder)).to.have.members([
       "shipment",
@@ -90,7 +73,7 @@ describe.only("POST /api/v1/products/:id/order", () => {
     });
 
     const response = await client
-      .post(`/api/v1/products/${product.id}/order`)
+      .post(`/api/v1/products/${product.id}/orders`)
       .send({});
 
     expect(response.status).to.eq(422);
@@ -109,25 +92,10 @@ describe.only("POST /api/v1/products/:id/order", () => {
     });
 
     const response = await client
-      .post(`/api/v1/products/${product.id}/order`)
+      .post(`/api/v1/products/${product.id}/orders`)
       .send({
+        ...orderParams,
         quantity: 5,
-        destination_address: {
-          address1: "2 Townsend Street",
-          address2: "Apt 4420",
-          city: "San Francisco",
-          state: "California",
-          zip: "94107",
-          country: "United States",
-        },
-        origin_address: {
-          address1: "2 Townsend Street",
-          address2: "Apt 4420",
-          city: "San Francisco",
-          state: "California",
-          zip: "94107",
-          country: "United States",
-        },
       });
 
     expect(response.status).to.eq(422);

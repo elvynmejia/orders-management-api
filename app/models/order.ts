@@ -1,9 +1,18 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  BaseEntity,
+  ManyToOne,
+  JoinColumn,
+} from "typeorm";
 
 import db from "./../db";
 
 import { Address, createAddress, addressWithoutId } from "./../models/address";
 import { createShipment, Shipment } from "./../models/shipment";
+
+import { Products } from "./product";
 
 export interface Order {
   id: number;
@@ -14,7 +23,7 @@ export interface Order {
 export type OrderWithoutId = Omit<Order, "id">;
 
 export type fullOrder = {
-  product_id: number;
+  product_id?: number;
   quantity: number;
   destination_address: addressWithoutId;
   origin_address: addressWithoutId;
