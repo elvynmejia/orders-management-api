@@ -1,9 +1,9 @@
 import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
 
-import db from "./../db";
+import db from "db";
 
-import { Address, createAddress, addressWithoutId } from "./../models/address";
-import { createShipment, Shipment } from "./../models/shipment";
+import { Address, createAddress, addressWithoutId } from "models/address";
+import { createShipment, Shipment } from "models/shipment";
 
 export interface Order {
   id: number;

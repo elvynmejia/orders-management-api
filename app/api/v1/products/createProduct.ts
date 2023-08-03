@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { createProduct } from "../../../models/product";
+import { createProduct } from "models/product";
 
 const createProductControler = async (
   req: Request,

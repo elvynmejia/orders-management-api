@@ -1,8 +1,8 @@
 import Joi from "joi";
 
 import { Request, Response, NextFunction } from "express";
-import { findProductById } from "../../../models/product";
-import { createOrder } from "../../../models/order";
+import { findProductById } from "models/product";
+import { createOrder } from "models/order";
 
 /*
 validate the length of zip

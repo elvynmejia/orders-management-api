@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
 
-import db from "./../db";
+import db from "db";
 
 /*
 +----------+--------------+------+-----+---------+----------------+

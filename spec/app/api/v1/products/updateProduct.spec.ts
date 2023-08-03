@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { createProduct } from "../../../../../app/models/product";
+import { createProduct } from "models/product";
 import client from "../../../..";
 
 describe("PATCH /api/v1/products/:id", () => {

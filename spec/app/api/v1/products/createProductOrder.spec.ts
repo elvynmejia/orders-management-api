@@ -1,10 +1,10 @@
 import { expect } from "chai";
 
-import { createProduct } from "../../../../../app/models/product";
+import { createProduct } from "models/product";
 
-import { getOrders } from "../../../../../app/models/order";
-import { getAddresses } from "../../../../../app/models/address";
-import { getShipments } from "../../../../../app/models/shipment";
+import { getOrders } from "models/order";
+import { getAddresses } from "models/address";
+import { getShipments } from "models/shipment";
 
 import client from "../../../..";
 

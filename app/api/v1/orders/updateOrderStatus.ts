@@ -2,7 +2,7 @@ import Joi from "joi";
 
 import { Request, Response, NextFunction } from "express";
 
-import { findOrderById, updateOrder } from "../../../models/order";
+import { findOrderById, updateOrder } from "models/order";
 
 // add confirmed status to order
 const shipmentValidatorSchema = Joi.object({

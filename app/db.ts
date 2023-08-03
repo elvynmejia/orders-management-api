@@ -1,8 +1,8 @@
 import { DataSource } from "typeorm";
-import { Products } from "./models/product";
-import { Orders } from "./models/order";
-import { Shipments } from "./models/shipment";
-import { Addresses } from "./models/address";
+import { Products } from "models/product";
+import { Orders } from "models/order";
+import { Shipments } from "models/shipment";
+import { Addresses } from "models/address";
 
 export default new DataSource({
   type: "mysql",

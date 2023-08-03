@@ -2,11 +2,8 @@ import Joi from "joi";
 
 import { Request, Response, NextFunction } from "express";
 
-import { findOrderById } from "../../../models/order";
-import {
-  findShipmentByIdOrderId,
-  updateShipment,
-} from "../../../models/shipment";
+import { findOrderById } from "models/order";
+import { findShipmentByIdOrderId, updateShipment } from "models/shipment";
 
 const shipmentValidatorSchema = Joi.object({
   tracking_company: Joi.string().required(),

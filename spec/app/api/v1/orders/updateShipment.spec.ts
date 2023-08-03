@@ -1,8 +1,8 @@
 import { expect } from "chai";
-import { createProduct } from "../../../../../app/models/product";
-import client from "../../../..";
-import { createOrder } from "../../../../../app/models/order";
+import { createProduct } from "models/product";
+import { createOrder } from "models/order";
 
+import client from "../../../..";
 import { orderParams } from "../../../../utils";
 
 describe("PATCH /api/v1/orders/:id/shipments", () => {

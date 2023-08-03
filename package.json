@@ -8,8 +8,8 @@
   "scripts": {
     "build": "tsc",
     "start": "tsc && node compiled/server.js",
-    "test": "mocha -r ts-node/register spec/**/*.spec.ts --reporter spec --require spec/index.ts --file spec/mochaHooks.ts --exit",
-    "noto": "mocha -r ts-node/register spec/**/*.spec.ts --reporter spec --require spec/index.ts --file spec/mochaHooks.ts --no-timeout --exit",
+    "test": "mocha -r ts-node/register -r tsconfig-paths/register --recursive spec/**/*.spec.ts --reporter spec --require spec/index.ts --file spec/mochaHooks.ts --exit",
+    "noto": "mocha -r ts-node/register -r tsconfig-paths/register --recursive spec/**/*.spec.ts --reporter spec --require spec/index.ts --file spec/mochaHooks.ts --no-timeout --exit",
     "lint": "eslint app/**/*.ts spec/**/*.spec.ts",
     "lint-fix": "eslint app/**/*.ts spec/**/*.spec.ts --fix",
     "migrate:up": "tsc && npx typeorm migration:run -d compiled/app/db.js",
@@ -40,8 +40,8 @@
     "@typescript-eslint/parser": "^6.1.0",
     "chai": "^4.3.7",
     "chai-as-promised": "^7.1.1",
-    "chai-http": "^4.3.0",
     "chai-factories": "^0.1.0",
+    "chai-http": "^4.3.0",
     "eslint": "^8.45.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.8.0",
@@ -50,6 +50,7 @@
     "eslint-plugin-react": "^7.32.2",
     "mocha": "^10.2.0",
     "prettier": "3.0.0",
-    "ts-node": "^10.9.1"
+    "ts-node": "^10.9.1",
+    "tsconfig-paths": "^4.2.0"
   }
 }

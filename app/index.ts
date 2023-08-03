@@ -8,14 +8,14 @@ import express, { Express, Request, Response } from "express";
 import morgan from "morgan";
 import cors from "cors";
 
-import db from "./db";
+import db from "db";
 import errorHandler from "./errorHandler";
-import getProductsControler from "./api/v1/products/getProducts";
-import createProductControler from "./api/v1/products/createProduct";
-import updateProductControler from "./api/v1/products/updateProduct";
-import createProducOrderController from "./api/v1/products/createProductOrder";
-import updateShipmentController from "./api/v1/orders/updateShipment";
-import updateOrderStatusController from "./api/v1/orders/updateOrderStatus";
+import getProductsControler from "api/v1/products/getProducts";
+import createProductControler from "api/v1/products/createProduct";
+import updateProductControler from "api/v1/products/updateProduct";
+import createProducOrderController from "api/v1/products/createProductOrder";
+import updateShipmentController from "api/v1/orders/updateShipment";
+import updateOrderStatusController from "api/v1/orders/updateOrderStatus";
 const app: Express = express();
 
 app.use(cors());
