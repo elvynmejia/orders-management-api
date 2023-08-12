@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { updateProduct, findProductById } from "models/product";
-
+import validatorMiddleware from "validators/products";
 const updateProductsControler = async (
   req: Request,
   res: Response,
@@ -41,4 +41,4 @@ const updateProductsControler = async (
   }
 };
 
-export default updateProductsControler;
+export default [validatorMiddleware, updateProductsControler];

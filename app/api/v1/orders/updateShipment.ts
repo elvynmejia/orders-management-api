@@ -1,33 +1,9 @@
-import Joi from "joi";
-
 import { Request, Response, NextFunction } from "express";
 
 import { findOrderById } from "models/order";
 import { findShipmentByIdOrderId, updateShipment } from "models/shipment";
 
-const shipmentValidatorSchema = Joi.object({
-  tracking_company: Joi.string().required(),
-  tracking_number: Joi.string().required(),
-  status: Joi.string().required(),
-});
-
-const validatorMiddleware = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  const { error } = shipmentValidatorSchema.validate({
-    tracking_company: req.body.tracking_company,
-    tracking_number: req.body.tracking_number,
-    status: req.body.status,
-  });
-
-  if (error) {
-    return next(error);
-  }
-
-  next();
-};
+import validatorMiddleware from "validators/shipments";
 
 const updateShipmentController = async (
   req: Request,

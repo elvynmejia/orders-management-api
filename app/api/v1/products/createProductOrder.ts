@@ -4,48 +4,7 @@ import { Request, Response, NextFunction } from "express";
 import { findProductById } from "models/product";
 import { createOrder } from "models/order";
 
-/*
-validate the length of zip
-how about parcel information?
-how about return address?
-*/
-const shipmentValidatorSchema = Joi.object({
-  quantity: Joi.number().required(),
-  destination_address: Joi.object({
-    address1: Joi.string().required(),
-    address2: Joi.string().required(),
-    city: Joi.string().required(),
-    state: Joi.string().required(),
-    zip: Joi.string().required(),
-    country: Joi.string().required(),
-  }).required(),
-  origin_address: Joi.object({
-    address1: Joi.string().required(),
-    address2: Joi.string().required(),
-    city: Joi.string().required(),
-    state: Joi.string().required(),
-    zip: Joi.string().required(),
-    country: Joi.string().required(),
-  }).required(),
-});
-
-const validatorMiddleware = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  const { error, ...rest } = shipmentValidatorSchema.validate({
-    quantity: req.body.quantity,
-    destination_address: req.body.destination_address,
-    origin_address: req.body.origin_address,
-  });
-
-  if (error) {
-    return next(error);
-  }
-
-  next();
-};
+import { createOrderValidatorMiddleware } from "validators/orders";
 
 const createProducOrderController = async (
   req: Request,
@@ -91,4 +50,4 @@ const createProducOrderController = async (
   }
 };
 
-export default [validatorMiddleware, createProducOrderController];
+export default [createOrderValidatorMiddleware, createProducOrderController];

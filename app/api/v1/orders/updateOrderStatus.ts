@@ -1,29 +1,8 @@
-import Joi from "joi";
-
 import { Request, Response, NextFunction } from "express";
 
 import { findOrderById, updateOrder } from "models/order";
 
-// add confirmed status to order
-const shipmentValidatorSchema = Joi.object({
-  status: Joi.string().valid("processing", "cancelled", "delivered").required(),
-});
-
-const validatorMiddleware = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  const { error } = shipmentValidatorSchema.validate({
-    status: req.body.status,
-  });
-
-  if (error) {
-    return next(error);
-  }
-
-  next();
-};
+import validatorMiddleware from "validators/orders";
 
 const updateOrderStatusController = async (
   req: Request,

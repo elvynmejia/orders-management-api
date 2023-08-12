@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { createProduct } from "models/product";
+import validatorMiddleware from "validators/products";
 
 const createProductControler = async (
   req: Request,
@@ -21,4 +22,4 @@ const createProductControler = async (
   }
 };
 
-export default createProductControler;
+export default [validatorMiddleware, createProductControler];
