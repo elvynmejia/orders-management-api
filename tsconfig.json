@@ -105,7 +105,8 @@
     "paths": {
       "models/*": ["models/*"],
       "api/*": ["api/*"],
-      "db": ["db"]
+      "db": ["db"],
+      "validators": ["validators"]
     }
   }
 }

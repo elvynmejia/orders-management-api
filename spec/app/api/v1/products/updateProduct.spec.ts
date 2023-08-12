@@ -13,6 +13,7 @@ describe("PATCH /api/v1/products/:id", () => {
     const response = await client.patch(`/api/v1/products/${product.id}`).send({
       price: 10.45,
       quantity: 100,
+      description: "new cat litter"
     });
 
     const { product: updatedProduct } = response.body;
@@ -27,7 +28,7 @@ describe("PATCH /api/v1/products/:id", () => {
     ]);
 
     expect(updatedProduct.quantity).to.eq(100);
-    expect(updatedProduct.description).to.eq("cat litter");
+    expect(updatedProduct.description).to.eq("new cat litter");
     expect(updatedProduct.price).to.eq(10.45);
   });
 
@@ -35,6 +36,7 @@ describe("PATCH /api/v1/products/:id", () => {
     const response = await client.patch("/api/v1/products/100").send({
       price: 10.45,
       quantity: 100,
+      description: "description"
     });
 
     expect(response.status).to.eq(404);
