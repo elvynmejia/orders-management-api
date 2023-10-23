@@ -1,4 +1,4 @@
-## Baseline product and order management systemb API written in NodeJS and TypeScript.
+## Baseline product and order management system API written in NodeJS and TypeScript.
 
 use with node v20.4.0
 if needed download nvm to be able to use the right version on node
@@ -10,7 +10,6 @@ if needed download nvm to be able to use the right version on node
 - be able to update order with shipping information, e.g. tracking company, tracking number.
 
 - be able to update order with status, e.g. processing, cancelled, delivered.
-We care about:
 
 
 ```bash
